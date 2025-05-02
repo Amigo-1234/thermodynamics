@@ -559,13 +559,11 @@ const questions = [
     }
   );
 
-  // Function to load the quiz questions dynamically into the form
   function loadQuiz() {
     const quizForm = document.getElementById("quiz-form");
-    quizForm.innerHTML = ''; // Clear the form before adding new questions
+    const randomizedQuestions = shuffle([...questions]); // Clone + shuffle
   
-    // Loop through the questions array and create HTML elements
-    questions.forEach((q, index) => {
+    randomizedQuestions.forEach((q, index) => {
       const questionDiv = document.createElement("div");
       questionDiv.classList.add("question");
   
@@ -591,7 +589,17 @@ const questions = [
       questionDiv.appendChild(optionsDiv);
       quizForm.appendChild(questionDiv);
     });
+  
+    window.randomizedQuestions = randomizedQuestions; // Save for scoring
   }
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+    
   
   // Function to handle quiz submission and show results
   function submitQuiz() {
